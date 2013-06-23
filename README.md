@@ -1,6 +1,9 @@
 # PlErrEx
 
-TODO: Write a gem description
+Gem for automatic extraction of various kinds of errors such as spelling, 
+typographical, grammatical, syntactic, semantic, and stylistic ones from text 
+edition history.
+Current implementation handles only texts composed in Polish language.
 
 ## Installation
 
@@ -12,13 +15,21 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install plerrex 
-
 ## Usage
 
-TODO: Write usage instructions here
+See test and binary files.
+
+Using command-line script:
+
+    ./extract_pl_errors.rb "ala ma koeta i psa" "Ala ma kota i psa."
+  
+Gives a result:
+
+    ala ma koeta i psa
+    Ala ma kota i psa.
+      ala -> Ala [0;wielkość liter;1;nonword]
+      koeta -> kota [2;pisownia;1;nonword]
+      psa -> psa. [4;interpunkcja]
 
 ## Contributing
 

@@ -4,10 +4,12 @@ require File.expand_path('../lib/plerrex/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["snukky"]
   gem.email         = ["snk987@gmail.com"]
-  gem.description   = %q{Extraction and categorization of polish language errors 
-                      from text edition history.}
-  gem.summary       = %q{Extraction of polish language errors from text edition
-                      history.}
+  gem.description   = %q{Automatic extraction of various kinds of errors such 
+                      as spelling, typographical, grammatical, syntactic, 
+                      semantic, and stylistic ones from text edition history.
+                      Works with texts composed in Polish language.}
+  gem.summary       = %q{Automatic extraction of polish language errors from 
+                      text edition history.}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
