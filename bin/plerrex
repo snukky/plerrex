@@ -70,7 +70,8 @@ def parse_options
   options.debug = false
 
   OptionParser.new do |opts|
-    opts.banner = "Usage: extract_pl_errors 'old_text' 'new_text' [options]"
+    opts.banner = "Automatic extraction of Polish language errors from text edition history\n" \
+                  "Usage: plerrex 'old text' 'new text' [options]"
     opts.separator ""
     opts.separator "Specific options:"
 

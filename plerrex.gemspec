@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "plerrex"
   gem.require_paths = ["lib"]
+  gem.bindir        = "bin"
   gem.version       = Plerrex::VERSION
 
   gem.add_runtime_dependency 'rake'

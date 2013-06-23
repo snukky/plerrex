@@ -21,7 +21,7 @@ See test and binary files.
 
 Using command-line script:
 
-    ./extract_pl_errors.rb "ala ma koeta i psa" "Ala ma kota i psa."
+    plerrex "ala ma koeta i psa" "Ala ma kota i psa."
   
 Gives a result:
 
