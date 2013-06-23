@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
                       Works with texts composed in Polish language.}
   gem.summary       = %q{Automatic extraction of polish language errors from 
                       text edition history.}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/snukky/plerrex.git"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
