@@ -1,0 +1,111 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+
+require 'plerrex'
+require 'plerrex/formatter'
+require 'optparse'
+require 'ostruct'
+
+def run!
+  options = parse_options
+  
+  @detector = Plerrex::Detector.new(:log => options.debug)
+  @formatter = Plerrex::Formatter.new
+
+  if options.line_by_line
+    run_in_line_by_line_mode(options)
+  else
+    run_in_standard_mode(options)
+  end
+end
+
+def run_in_line_by_line_mode(options)
+  @validator = Plerrex::Validator.new(:log => options.debug)
+  
+  doit = false
+  prev_line = ""
+
+  ARGF.each_line do |line|
+    if line =~ /^\s*$/
+      doit = false
+      prev_line = ""
+      next
+    end
+
+    if doit
+      errors = @detector.find(prev_line.chomp, line.chomp)
+      puts @formatter.print(errors, :color => options.color)
+    
+      errors.select{ |err| !@validator.valid_error?(err) }
+
+      doit = false
+      prev_line = ""
+    else 
+      prev_line = line
+      doit = true
+    end
+  end
+end
+
+def run_in_standard_mode(options)
+  errors = @detector.find(options.old_text, options.new_text)
+
+  if options.format == :yaml
+    puts @formatter.format errors
+  else
+    puts @formatter.print errors, :color => options.color 
+  end
+end
+
+def parse_options
+  options = OpenStruct.new 
+
+  options.old_text = ''
+  options.new_text = ''
+  options.format = nil
+  options.color = true
+  options.line_by_line = false
+  options.debug = false
+
+  OptionParser.new do |opts|
+    opts.banner = "Usage: extract_pl_errors 'old_text' 'new_text' [options]"
+    opts.separator ""
+    opts.separator "Specific options:"
+
+    opts.on("-l", "--line-by-line", "Run in line by line mode") do |l|
+      options.line_by_line = l
+    end
+    
+    opts.on("-c", "--[no-]color", "Use colors (turn on by default)") do |c|
+      options.color = c
+    end
+
+    opts.on("-y", "--yaml", "Set output format to yaml") do
+      options.format = :yaml
+    end
+
+    opts.on("-d", "--[no-]debug", "Run in debug mode") do |d|
+      options.debug = d
+    end
+    
+    opts.on_tail("-h", "--help", "Show this message") do
+      puts opts
+      exit
+    end
+  end.parse!
+
+  if !options.line_by_line && ARGV.size < 2
+    puts "You have to specify edited text as old and new fragments (see --help)"
+    exit
+  end
+
+  options.old_text = ARGV[0]
+  options.new_text = ARGV[1]
+  ARGV.clear
+
+  options
+end
+
+run!
